@@ -2,5 +2,9 @@ language: java
 
 script: "mvn cobertura:cobertura"
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+env:
+  - CODECOV_TOKEN="8c5f6880-d671-47ff-a62a-2ea621e76325"
 jdk:
   - openjdk8
