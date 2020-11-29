@@ -1,0 +1,6 @@
+language: java
+
+script: "mvn cobertura:cobertura"
+
+jdk:
+  - openjdk8
