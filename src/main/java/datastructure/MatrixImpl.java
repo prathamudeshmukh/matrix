@@ -2,6 +2,7 @@ package datastructure;
 
 import exceptions.AdditionNotAllowedException;
 import exceptions.IrregularDimensionsException;
+import exceptions.MultiplicationNotAllowedException;
 import exceptions.SubtractionNotAllowedException;
 
 public class MatrixImpl implements Matrix
@@ -19,9 +20,27 @@ public class MatrixImpl implements Matrix
         this.data = data;
     }
 
-    public Matrix multiply(Matrix matrix)
+    public Matrix multiply(Matrix matrix) throws MultiplicationNotAllowedException
     {
-        return null;
+        if(columnSize() != matrix.rowSize()) {
+            throw new MultiplicationNotAllowedException("Dimensions of 2 matrices are not same");
+        }
+        Matrix productMatrix = new MatrixImpl(rowSize(), matrix.columnSize());
+        for (int rowIndex = 0; rowIndex<rowSize(); rowIndex++) {
+            int[] row = getRow(rowIndex);
+            for (int mColumnIndex = 0; mColumnIndex<matrix.columnSize(); mColumnIndex++)
+            {
+                int[] column = matrix.getColumn(mColumnIndex);
+                int dotProduct = 0;
+                for (int dotIndex = 0; dotIndex < columnSize(); dotIndex++)
+                {
+                    dotProduct += row[dotIndex] * column[dotIndex];
+                }
+                productMatrix.set(rowIndex, mColumnIndex, dotProduct);
+            }
+
+        }
+        return productMatrix;
     }
 
     @Override
@@ -40,7 +59,7 @@ public class MatrixImpl implements Matrix
         return additionMatrix;
     }
 
-    public Matrix subtraction(Matrix matrix) throws SubtractionNotAllowedException
+    public Matrix subtract(Matrix matrix) throws SubtractionNotAllowedException
     {
         if(matrix.rowSize() != rowSize() || matrix.columnSize() != columnSize()) {
             throw new SubtractionNotAllowedException("Dimensions of 2 matrices are not same");
@@ -87,5 +106,17 @@ public class MatrixImpl implements Matrix
                 throw new IrregularDimensionsException();
             }
         }
+    }
+
+    public int[] getRow(int rowIndex) {
+        return data[rowIndex];
+    }
+
+    public int[] getColumn(int columnIndex) {
+        int[] column = new int[rowSize()];
+        for (int rowIndex=0; rowIndex<rowSize(); rowIndex++) {
+            column[rowIndex] = data[rowIndex][columnIndex];
+        }
+        return column;
     }
 }

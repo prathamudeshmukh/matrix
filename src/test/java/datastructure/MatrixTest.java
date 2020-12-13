@@ -2,6 +2,7 @@ package datastructure;
 
 import exceptions.AdditionNotAllowedException;
 import exceptions.IrregularDimensionsException;
+import exceptions.MultiplicationNotAllowedException;
 import exceptions.SubtractionNotAllowedException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -76,7 +77,7 @@ public class MatrixTest
         Matrix matrix1 = new MatrixImpl(new int[][]{ {1,2}, {3,4} });
         Matrix matrix2 = new MatrixImpl(new int[][]{ {5,6,9}, {7,8,9} });
         Assertions.assertThrows(SubtractionNotAllowedException.class, () -> {
-            matrix1.subtraction(matrix2);
+            matrix1.subtract(matrix2);
         }, "Dimensions of 2 matrices are not same");
     }
 
@@ -86,7 +87,7 @@ public class MatrixTest
     {
         Matrix matrix1 = new MatrixImpl(new int[][]{ {1,2},{3,4} });
         Matrix matrix2 = new MatrixImpl(new int[][]{ {5,6},{7,8} });
-        Matrix sum = matrix1.subtraction(matrix2);
+        Matrix sum = matrix1.subtract(matrix2);
         int[][] expectedAddition = { { -4, -4 }, { -4, -4 }};
 
         assertEquals(expectedAddition[0][0], sum.get(0,0));
@@ -94,4 +95,32 @@ public class MatrixTest
         assertEquals(expectedAddition[1][0], sum.get(1,0));
         assertEquals(expectedAddition[1][1], sum.get(1,1));
     }
+
+    @DisplayName("Throw exception if 2 matrix donot have valid dimensions while multiplying")
+    @Test
+    void testShouldThrowException_whenOperandMatrixIsNotValidForMultiplying() throws IrregularDimensionsException
+    {
+        Matrix matrix1 = new MatrixImpl(new int[][]{ {1,2}, {3,4} });
+        Matrix matrix2 = new MatrixImpl(new int[][]{ {5, 6}, {7, 8}, {10, 11} });
+        Assertions.assertThrows(MultiplicationNotAllowedException.class, () -> {
+            matrix1.multiply(matrix2);
+        }, "Dimensions of 2 matrices are not same");
+    }
+
+    @DisplayName("Return multiplication matrix of 2 matrices")
+    @Test
+    void testShouldReturnProductOf2Matrix_whenOperandMatrixIsValid() throws IrregularDimensionsException, MultiplicationNotAllowedException
+    {
+        Matrix matrix1 = new MatrixImpl(new int[][]{ {1, 2, 3}, {4, 5, 6} });
+        Matrix matrix2 = new MatrixImpl(new int[][]{ {7, 8}, {9, 10}, {11, 12} });
+        Matrix product = matrix1.multiply(matrix2);
+
+        int[][] expectedAddition = { { 58, 64 }, { 139, 154 }};
+
+        assertEquals(expectedAddition[0][0], product.get(0,0));
+        assertEquals(expectedAddition[0][1], product.get(0,1));
+        assertEquals(expectedAddition[1][0], product.get(1,0));
+        assertEquals(expectedAddition[1][1], product.get(1,1));
+    }
+
 }
