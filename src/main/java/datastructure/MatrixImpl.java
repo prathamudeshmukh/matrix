@@ -76,7 +76,17 @@ public class MatrixImpl implements Matrix
 
     public Matrix transpose()
     {
-        return null;
+        Matrix transposeMatrix = new MatrixImpl(columnSize(), rowSize());
+        int rowIndex = 0;
+        for (int[] row : data) {
+            int colIndex = 0;
+            for(int value : row) {
+                transposeMatrix.set(colIndex, rowIndex, value);
+                colIndex++;
+            }
+            rowIndex ++;
+        }
+        return transposeMatrix;
     }
 
     public int get(int row, int col)

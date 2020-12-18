@@ -123,4 +123,21 @@ public class MatrixTest
         assertEquals(expectedAddition[1][1], product.get(1,1));
     }
 
+    @DisplayName("Return transpose of a matrix")
+    @Test
+    void testShouldReturntransposeOfMatrix() throws IrregularDimensionsException
+    {
+        Matrix matrix = new MatrixImpl(new int[][]{ {1, 2}, {3, 4} , {5, 6} });
+        Matrix transposeMatrix = matrix.transpose();
+
+        int[][] expectedTranspose = { { 1, 3, 5 }, { 2, 4, 6 }};
+
+        assertEquals(expectedTranspose[0][0], transposeMatrix.get(0,0));
+        assertEquals(expectedTranspose[0][1], transposeMatrix.get(0,1));
+        assertEquals(expectedTranspose[0][2], transposeMatrix.get(0,2));
+        assertEquals(expectedTranspose[1][0], transposeMatrix.get(1,0));
+        assertEquals(expectedTranspose[1][1], transposeMatrix.get(1,1));
+        assertEquals(expectedTranspose[1][2], transposeMatrix.get(1,2));
+    }
+
 }
